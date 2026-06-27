@@ -5,26 +5,25 @@ import path from 'path';
 
 export const createGem = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { 
-      stoneName, category, planetAssociation, purpose, description 
-    } = req.body;
     let image = '';
 
     if ((req as any).file) {
-      // Store relative path to access via static route
       image = `/uploads/gems/${(req as any).file.filename}`;
     } else {
       res.status(400).json({ success: false, message: 'Image is required' });
       return;
     }
 
+    const bodyData = { ...req.body };
+    if (typeof bodyData.translations === 'string') {
+      try {
+        bodyData.translations = JSON.parse(bodyData.translations);
+      } catch (e) {}
+    }
+
     const newGem = new GemsList({
-      stoneName,
-      category,
-      planetAssociation,
-      purpose,
-      image,
-      description
+      ...bodyData,
+      image
     });
 
     await newGem.save();
@@ -91,18 +90,16 @@ export const updateGem = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const { 
-      stoneName, category, planetAssociation, purpose, description 
-    } = req.body;
-    
-    gem.stoneName = stoneName || gem.stoneName;
-    gem.category = category || gem.category;
-    gem.planetAssociation = planetAssociation || gem.planetAssociation;
-    gem.purpose = purpose || gem.purpose;
-    gem.description = description || gem.description;
+    const bodyData = { ...req.body };
+    if (typeof bodyData.translations === 'string') {
+      try {
+        bodyData.translations = JSON.parse(bodyData.translations);
+      } catch (e) {}
+    }
+
+    Object.assign(gem, bodyData);
 
     if ((req as any).file) {
-      // Optional: Delete old image
       if (gem.image) {
         const filePath = path.join(__dirname, '../../', gem.image);
         if (fs.existsSync(filePath)) {

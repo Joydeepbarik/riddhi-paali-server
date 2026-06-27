@@ -1,14 +1,12 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface IGem extends Document {
-  stoneName: string;
-  category: string;
-  planetAssociation: string;
-  purpose: string;
-  image: string;
-  description: string;
+export interface IStoneDetails extends Document {
+  gemId: string;
+  stoneName?: string;
   bengaliName?: string;
   sanskritHindiName?: string;
+  category?: string;
+  planetAssociation?: string;
   zodiacRashi?: string;
   color?: string;
   origin?: string;
@@ -38,19 +36,18 @@ export interface IGem extends Document {
   customizationAvailable?: string;
   returnExchangePolicy?: string;
   translations?: Record<string, any>;
-  createdAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   [key: string]: any;
 }
 
-const gemSchema: Schema = new Schema({
-  stoneName: { type: String, required: true },
-  category: { type: String, required: true },
-  planetAssociation: { type: String, required: true },
-  purpose: { type: String, required: true },
-  image: { type: String, required: true },
-  description: { type: String, required: true },
+const stoneDetailsSchema: Schema = new Schema({
+  gemId: { type: String, required: true, unique: true, index: true },
+  stoneName: { type: String },
   bengaliName: { type: String },
   sanskritHindiName: { type: String },
+  category: { type: String },
+  planetAssociation: { type: String },
   zodiacRashi: { type: String },
   color: { type: String },
   origin: { type: String },
@@ -80,7 +77,9 @@ const gemSchema: Schema = new Schema({
   customizationAvailable: { type: String },
   returnExchangePolicy: { type: String },
   translations: { type: Schema.Types.Mixed },
-  createdAt: { type: Date, default: Date.now }
-}, { strict: false });
+}, { 
+  timestamps: true,
+  strict: false // Allow any extra dynamic fields
+});
 
-export default mongoose.model<IGem>('GemsList', gemSchema);
+export default mongoose.model<IStoneDetails>('StoneDetails', stoneDetailsSchema, 'stonedetails');
