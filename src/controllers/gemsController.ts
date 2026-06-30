@@ -15,10 +15,15 @@ export const createGem = async (req: Request, res: Response): Promise<void> => {
     }
 
     const bodyData = { ...req.body };
-    if (typeof bodyData.translations === 'string') {
-      try {
-        bodyData.translations = JSON.parse(bodyData.translations);
-      } catch (e) {}
+    if (bodyData.translations) {
+      if (Array.isArray(bodyData.translations)) {
+        const validItem = bodyData.translations.reverse().find((item: any) => typeof item === 'string' && item.startsWith('{'));
+        if (validItem) {
+          try { bodyData.translations = JSON.parse(validItem); } catch (e) {}
+        }
+      } else if (typeof bodyData.translations === 'string') {
+        try { bodyData.translations = JSON.parse(bodyData.translations); } catch (e) {}
+      }
     }
 
     const newGem = new GemsList({
@@ -91,10 +96,15 @@ export const updateGem = async (req: Request, res: Response): Promise<void> => {
     }
 
     const bodyData = { ...req.body };
-    if (typeof bodyData.translations === 'string') {
-      try {
-        bodyData.translations = JSON.parse(bodyData.translations);
-      } catch (e) {}
+    if (bodyData.translations) {
+      if (Array.isArray(bodyData.translations)) {
+        const validItem = bodyData.translations.reverse().find((item: any) => typeof item === 'string' && item.startsWith('{'));
+        if (validItem) {
+          try { bodyData.translations = JSON.parse(validItem); } catch (e) {}
+        }
+      } else if (typeof bodyData.translations === 'string') {
+        try { bodyData.translations = JSON.parse(bodyData.translations); } catch (e) {}
+      }
     }
 
     Object.assign(gem, bodyData);

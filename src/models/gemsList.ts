@@ -37,6 +37,7 @@ export interface IGem extends Document {
   stockStatus?: string;
   customizationAvailable?: string;
   returnExchangePolicy?: string;
+  stoneFullDetails?: string;
   translations?: Record<string, any>;
   createdAt: Date;
   [key: string]: any;
@@ -79,6 +80,7 @@ const gemSchema: Schema = new Schema({
   stockStatus: { type: String },
   customizationAvailable: { type: String },
   returnExchangePolicy: { type: String },
+  stoneFullDetails: { type: String },
   translations: { type: Schema.Types.Mixed },
   createdAt: { type: Date, default: Date.now }
 }, { strict: false });

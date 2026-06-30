@@ -9,9 +9,8 @@ import contactRoutes from './routes/contactRoutes';
 import gemsRoutes from './routes/gemsRoutes';
 import blogRoutes from './routes/blogRoutes';
 import userRoutes from './routes/userRoutes';
-import languageRoutes from './routes/languageRoutes';
-import stoneDetailsRoutes from './routes/stoneDetailsRoutes';
 import stoneCategoryRoutes from './routes/stoneCategoryRoutes';
+import blogCategoryRoutes from './routes/blogCategoryRoutes';
 import { seedAdminUser } from './seeder/userSeeder';
 
 dotenv.config();
@@ -33,11 +32,11 @@ app.use('/api/contacts', contactRoutes);
 app.use('/api/gems', gemsRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/languages', languageRoutes);
-app.use('/api/stone-details', stoneDetailsRoutes);
-app.use('/api/stonedetails', stoneDetailsRoutes);
 app.use('/api/stone-categories', stoneCategoryRoutes);
 app.use('/api/stoneCategory', stoneCategoryRoutes);
+app.use('/api/blog-categories', blogCategoryRoutes);
+app.use('/api/blogCategory', blogCategoryRoutes);
+app.use('/api/blogcategory', blogCategoryRoutes);
 
 // Basic Route
 app.get('/', (req: Request, res: Response) => {

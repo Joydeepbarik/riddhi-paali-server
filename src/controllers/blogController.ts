@@ -23,6 +23,8 @@ export const createBlog = async (req: Request, res: Response): Promise<void> => 
       image = `/uploads/blogs/${files.image[0].filename}`;
     } else if ((req as any).file) {
       image = `/uploads/blogs/${(req as any).file.filename}`;
+    } else if (req.body.image && typeof req.body.image === 'string') {
+      image = req.body.image;
     } else {
       res.status(400).json({ success: false, message: 'Image is required' });
       return;
